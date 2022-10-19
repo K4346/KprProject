@@ -8,21 +8,42 @@
 </head>
 
 <body>
-<h1>MiniMaple</h1>
+<h1>Курс Валют</h1>
 
-<label>Write the symbolic diff function:
-    <input type="text" id="diffInput">
-</label>
-<br>
+<div id="chooseContainer">
+
+
+    <label for="currencySelector">Валюта: </label><select id="currencySelector">
+            <option value="-">-</option>
+        </select>
+
+
+
+        <label> Номинал:
+            <input type="number" id="nominalInput">
+        </label>
+
+</div>
+
 <br>
 
-<div>
-    <button id="submitButton">
-        Submit
-    </button>
-</div>
+<div id="selectedCurrencyContainer"></div>
+
 <br>
-<div id="container">
+
+<div id="output">
 </div>
+
+<br>
+
+<div id="changesContainer" style="visibility: hidden">
+    <h3>Динамика по сравнению с прошлым днем:</h3>
+</div>
+<div class="canvasContainer">
+    <canvas id="canvas" width="300" height="100">
+        Браузер не поддерживает Canvas
+    </canvas>
+</div>
+
 </body>
 </html>
