@@ -71,7 +71,13 @@ function initNominalInput() {
 
 }
 
+function initDate() {
+    document.getElementById('title').textContent = `Курс Валют (${(new Date(info.date)).toLocaleDateString("ru")})`
+
+}
+
 function initViews() {
+    initDate()
     initCurrencySelector(Object.keys(info.valute))
     initNominalInput()
 }
@@ -84,9 +90,9 @@ function startApp() {
             info = new GeneralEntity(out)
             initViews()
         }).catch(err => {
-        setTimeout(function() {
-            startApp()
-        }, 2000);
+        // setTimeout(function() {
+        //     startApp()
+        // }, 2000);
         console.error(err)
     });
 }
