@@ -8,7 +8,7 @@ class CustomChart {
         this.canvas.getContext(`2d`).clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    arrow(values) {
+    arrow(values,util) {
         function floatFixed(fValue){
             return parseFloat( fValue.toFixed(8) );
         }
@@ -21,11 +21,12 @@ class CustomChart {
         } else if (values[0].value < values[1].value) {
             fromy = 70
             toy = 0
-            text= `+${floatFixed(values[1].value-values[0].value)}₽`
+            text= '+' + util.formatFloatToDisplayingAmount(floatFixed(values[1].value-values[0].value))
         } else {
             fromy = 0
             toy = 70
-            text= `${floatFixed(values[1].value-values[0].value)}₽`
+
+            text= util.formatFloatToDisplayingAmount(floatFixed(values[1].value-values[0].value))
         }
         const ctx = this.canvas.getContext(`2d`)
         ctx.beginPath();

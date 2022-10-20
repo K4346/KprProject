@@ -1,9 +1,12 @@
 import {CurrencyEntity} from "./CurrencyEntity.js";
 import {GeneralEntity} from "./GeneralEntity.js";
 import {CustomChart} from "./CustomChart.js";
+import {Utils} from "./utils.js";
 
 document.addEventListener('DOMContentLoaded', setup)
 
+
+const util = new Utils()
 
 const currencySelector = document.getElementById('currencySelector');
 const nominalInput = document.getElementById('nominalInput');
@@ -20,25 +23,24 @@ function setup() {
 
 
 function calculateResult() {
-    const nominal = Number(nominalInput.value)
-    if (currencySelector.value === '-' || !Number.isInteger(nominal) || nominal < 1) {
-        document.getElementById('output').textContent = '\n';
+    const result = document.getElementById('output');
+    if (currencySelector.value === '-') {
+        result.textContent = ''
         return
     }
-    const currencyValue = parseFloat(currency.value) * nominal / parseFloat(currency.nominal)
-    const result = document.getElementById('output');
-    result.textContent = `${nominal.toString()} ${currency.charCode} = ${currencyValue.toString()}₽`
+    result.textContent = util.showNominalCurrency(Number(nominalInput.value), currency)
 }
 
 function makeChart() {
     chart.arrow([
-        {
-            value: currency.previous,
-            date: info.previousDate
-        }, {
-            value: currency.value,
-            date: info.date
-        }])
+            {
+                value: currency.previous,
+                date: info.previousDate
+            }, {
+                value: currency.value,
+                date: info.date
+            }],
+        util)
 }
 
 function initCurrencySelector(currencies) {
@@ -53,10 +55,10 @@ function initCurrencySelector(currencies) {
         if (event.target.value !== '-') {
             currency = new CurrencyEntity(info.valute[currencySelector.value])
             selectedName.textContent = `Валюта: ${currency.name}`
-            document.getElementById('changesContainer').style.visibility='visible'
+            document.getElementById('changesContainer').style.visibility = 'visible'
             makeChart()
         } else {
-            document.getElementById('changesContainer').style.visibility='hidden'
+            document.getElementById('changesContainer').style.visibility = 'hidden'
             selectedName.textContent = `\n`
             chart.clear()
         }
@@ -68,12 +70,10 @@ function initNominalInput() {
     nominalInput.addEventListener('input', () => {
         calculateResult()
     });
-
 }
 
 function initDate() {
     document.getElementById('title').textContent = `Курс Валют (${(new Date(info.date)).toLocaleDateString("ru")})`
-
 }
 
 function initViews() {
