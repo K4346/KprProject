@@ -32,7 +32,7 @@ function calculateResult() {
 }
 
 function makeChart() {
-    chart.arrow([
+    chart.drawArrow([
             {
                 value: currency.previous,
                 date: info.previousDate

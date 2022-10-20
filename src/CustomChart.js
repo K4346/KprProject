@@ -8,25 +8,25 @@ class CustomChart {
         this.canvas.getContext(`2d`).clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    arrow(values,util) {
+    drawArrow(values, util) {
         function floatFixed(fValue){
             return parseFloat( fValue.toFixed(8) );
         }
         this.clear()
         let text
         let fromx = 5, fromy = 0, tox = 75, toy
+        const amount = Math.abs(util.formatFloatToDisplayingAmount(floatFixed(values[0].value - values[1].value)))
         if (values[0].value === values[1].value) {
             toy = 0
             text = 'Не изменилось'
         } else if (values[0].value < values[1].value) {
             fromy = 70
             toy = 0
-            text= '+' + util.formatFloatToDisplayingAmount(floatFixed(values[1].value-values[0].value))
+            text= `+${amount}₽`
         } else {
             fromy = 0
             toy = 70
-
-            text= util.formatFloatToDisplayingAmount(floatFixed(values[1].value-values[0].value))
+            text= `${amount}₽`
         }
         const ctx = this.canvas.getContext(`2d`)
         ctx.beginPath();
