@@ -14,28 +14,25 @@ class CustomChart {
         }
         this.clear()
         let text
-        let fromx = 5, fromy = 0, tox = 75, toy
+        let fromX = 5, fromY = 0, toX = 75, toY
         const amount = Math.abs(util.formatFloatToDisplayingAmount(floatFixed(values[0].value - values[1].value)))
         if (values[0].value === values[1].value) {
-            toy = 0
+            toY = 0
             text = 'Не изменилось'
         } else if (values[0].value < values[1].value) {
-            fromy = 70
-            toy = 0
+            fromY = 70
+            toY = 0
             text= `+${amount}₽`
         } else {
-            fromy = 0
-            toy = 70
+            fromY = 0
+            toY = 70
             text= `-${amount}₽`
         }
         const ctx = this.canvas.getContext(`2d`)
         ctx.beginPath();
-        canvas_arrow(ctx, fromx, fromy, tox, toy);
+        canvas_arrow(ctx, fromX, fromY, toX, toY);
         ctx.font = `18px Tahoma`;
-        ctx.fillText(text, tox + 5, (fromy + toy) / 2);
-        // canvas_arrow(ctx, 100, 200, 400, 50);
-        // canvas_arrow(ctx, 200, 30, 10, 150);
-        // canvas_arrow(ctx, 400, 200, 100, 50);
+        ctx.fillText(text, toX + 5, (fromY + toY) / 2);
         ctx.stroke();
 
 
@@ -52,56 +49,7 @@ class CustomChart {
         }
     }
 
-    draw(values) {
-        const max = Math.max(...values.map(o => o.value))
-        const ctx = this.canvas.getContext(`2d`)
 
-
-        const Gap = {
-            HORIZONTAL: 100,
-            VERTICAL: 30
-        }
-
-        const BarCoordinate = {
-            INITIAL_X: 80,
-            INITIAL_Y: 0
-        }
-
-        const BarSize = {
-            MAX_HEIGHT: this.canvas.height,
-            WIDTH: 50
-        };
-
-        const LabelCoordinate = {
-            INITIAL_X: 30,
-            INITIAL_Y: 70
-        }
-
-
-        this.clear()
-
-        let currentBarX = BarCoordinate.INITIAL_X;
-        let currentLabelY = LabelCoordinate.INITIAL_Y;
-
-        const gapBetweenBars = BarSize.WIDTH + Gap.HORIZONTAL;
-
-        for (let i = 0; i < values.length; i++) {
-
-            const barHeight = (values[i].value * BarSize.MAX_HEIGHT) / max;
-            ctx.save();
-
-            ctx.translate(0, this.canvas.height);
-            ctx.rotate(-Math.PI / 2);
-            ctx.fillText(values[i].date.toUpperCase(), LabelCoordinate.INITIAL_X, currentLabelY);
-            ctx.restore();
-
-
-            ctx.fillRect(currentBarX, BarCoordinate.INITIAL_Y, BarSize.WIDTH, barHeight);
-
-            currentBarX += gapBetweenBars;
-            currentLabelY += gapBetweenBars;
-        }
-    }
 }
 
 export {CustomChart}
