@@ -1,3 +1,5 @@
+import {CurrencyEntity} from "./currencyEntity.js";
+
 export class Utils {
 
     // отрезает цифры у числа с плавающей точкой
@@ -29,6 +31,32 @@ export class Utils {
         if (currency.value <= 0 || currency.nominal < 1 || !Number.isInteger(nominal) || nominal < 1) return ''
         const amount = parseFloat(currency.value) * nominal / parseFloat(currency.nominal)
         return `${nominal.toString()} ${currency.charCode} = ${this.formatFloatToDisplayingAmount(amount)}₽`
+    }
+
+    getCurrenciesByDynamics(currencies) {
+        let pros = [], cons = [], equal = []
+        currencies.forEach(it => {
+            const currency = new CurrencyEntity(it)
+            if (currency.previous < currency.value) {
+                pros.push(currency)
+            } else if (currency.previous > currency.value) {
+                cons.push(currency)
+            } else {
+                equal.push(currency)
+            }
+        })
+        return {pros, cons, equal}
+    }
+
+    makeTextFromArray(array) {
+        let text = ""
+        for (let i = 0; i < array.length; i++) {
+            text+=array[i].charCode
+            if (i!==array.length-1){
+                text+=", "
+            } else text+="."
+        }
+        return text
     }
 
 }

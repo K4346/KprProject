@@ -1,6 +1,7 @@
-import {CurrencyEntity} from "./CurrencyEntity.js";
-import {GeneralEntity} from "./GeneralEntity.js";
-import {CustomChart} from "./CustomChart.js";
+import {CurrencyEntity} from "./currencyEntity.js";
+import {GeneralEntity} from "./generalEntity.js";
+import {ArrowCanvas} from "./arrowCanvas.js";
+import {PieChart} from "./pieChart.js";
 import {Utils} from "./utils.js";
 
 document.addEventListener('DOMContentLoaded', setup)
@@ -9,7 +10,8 @@ const util = new Utils()
 
 const currencySelector = document.getElementById('currencySelector');
 const nominalInput = document.getElementById('nominalInput');
-const chart = new CustomChart(document.getElementById('canvas'))
+const ArrowChart = new ArrowCanvas(document.getElementById('arrowCanvas'))
+const pieChart = new PieChart(document.getElementById('pieCanvas'),document.getElementById("pieLegend"))
 
 const API = 'https://www.cbr-xml-daily.ru/daily_json.js'
 let info
@@ -31,7 +33,7 @@ function calculateResult() {
 }
 
 function makeChart() {
-    chart.drawArrow([
+    ArrowChart.drawArrow([
             {
                 value: currency.previous,
                 date: info.previousDate
@@ -59,7 +61,7 @@ function initCurrencySelector(currencies) {
         } else {
             document.getElementById('changesContainer').style.visibility = 'hidden'
             selectedName.textContent = `\n`
-            chart.clear()
+            ArrowChart.clear()
         }
         calculateResult()
     });
@@ -75,10 +77,29 @@ function initDate() {
     document.getElementById('title').textContent = `Курс Валют (${(new Date(info.date)).toLocaleDateString("ru")})`
 }
 
+function initStats() {
+    const splittedCurrencies = util.getCurrenciesByDynamics(Object.values(info.valute))
+    pieChart.draw({
+        increase:splittedCurrencies.pros.length,
+        decrease:splittedCurrencies.cons.length,
+        equal:splittedCurrencies.equal.length
+    })
+    const pros = document.getElementById('pros')
+    const cons = document.getElementById('cons')
+    const equel = document.getElementById('cons')
+    if (splittedCurrencies.pros.length!==0)
+    pros.textContent = `Валюты с положительной динамикой: ${util.makeTextFromArray(splittedCurrencies.pros)}`
+    if (splittedCurrencies.cons.length!==0)
+        cons.textContent = `Валюты с отрицательной динамикой: ${util.makeTextFromArray(splittedCurrencies.cons)}`
+    if (splittedCurrencies.equal.length!==0)
+        equel.textContent = `Валюты с нулевой динамикой: ${util.makeTextFromArray(splittedCurrencies.equal)}`
+}
+
 function initViews() {
     initDate()
     initCurrencySelector(Object.keys(info.valute))
     initNominalInput()
+    initStats()
 }
 
 function startApp() {

@@ -1,5 +1,8 @@
 import {Utils} from "../src/utils";
-import {CurrencyEntity} from "../src/CurrencyEntity";
+import {CurrencyEntity} from "../src/currencyEntity";
+
+
+//TODO getCurrenciesByDynamics formatCurrenciesByDynamicsForDisplaying
 
 let utils = new Utils()
 
