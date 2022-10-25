@@ -26,7 +26,7 @@ class CustomChart {
         } else {
             fromy = 0
             toy = 70
-            text= `$-{amount}₽`
+            text= `-${amount}₽`
         }
         const ctx = this.canvas.getContext(`2d`)
         ctx.beginPath();
