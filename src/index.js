@@ -5,7 +5,6 @@ import {Utils} from "./utils.js";
 
 document.addEventListener('DOMContentLoaded', setup)
 
-
 const util = new Utils()
 
 const currencySelector = document.getElementById('currencySelector');
