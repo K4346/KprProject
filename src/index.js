@@ -11,13 +11,12 @@ const util = new Utils()
 const currencySelector = document.getElementById('currencySelector');
 const nominalInput = document.getElementById('nominalInput');
 const ArrowChart = new ArrowCanvas(document.getElementById('arrowCanvas'))
-const pieChart = new PieChart(document.getElementById('pieCanvas'),document.getElementById("pieLegend"))
+const pieChart = new PieChart(document.getElementById('pieCanvas'), document.getElementById("pieLegend"))
 
 const API = 'https://www.cbr-xml-daily.ru/daily_json.js'
 let info
 let currency
 
-// TODO СДЕЛАТЬ ПРОГРЕССБАР
 function setup() {
     startApp()
 }
@@ -76,25 +75,25 @@ function initNominalInput() {
 function initStats() {
     const splittedCurrencies = util.getCurrenciesByDynamics(Object.values(info.valute))
     pieChart.draw({
-        increase:splittedCurrencies.pros.length,
-        decrease:splittedCurrencies.cons.length,
-        equal:splittedCurrencies.equal.length
+        increase: splittedCurrencies.pros.length,
+        decrease: splittedCurrencies.cons.length,
+        equal: splittedCurrencies.equal.length
     })
     const pros = document.getElementById('pros')
     const cons = document.getElementById('cons')
     const equel = document.getElementById('cons')
-    if (splittedCurrencies.pros.length!==0)
-    pros.textContent = `Валюты с положительной динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.pros)}`
-    if (splittedCurrencies.cons.length!==0)
+    if (splittedCurrencies.pros.length !== 0)
+        pros.textContent = `Валюты с положительной динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.pros)}`
+    if (splittedCurrencies.cons.length !== 0)
         cons.textContent = `Валюты с отрицательной динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.cons)}`
-    if (splittedCurrencies.equal.length!==0)
+    if (splittedCurrencies.equal.length !== 0)
         equel.textContent = `Валюты с нулевой динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.equal)}`
 }
 
-    function apiIsReady(flag){
-    if (flag){
+function apiIsReady(flag) {
+    if (flag) {
         document.getElementById('content').style.display = 'block'
-    } else{
+    } else {
         document.getElementById('contentError').style.display = 'block'
     }
 }
