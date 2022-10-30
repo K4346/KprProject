@@ -48,13 +48,13 @@ export class Utils {
         return {pros, cons, equal}
     }
 
-    makeTextFromArray(array) {
+    getCurrencyNamesFromArray(array) {
         let text = ""
         for (let i = 0; i < array.length; i++) {
-            text+=array[i].charCode
-            if (i!==array.length-1){
-                text+=", "
-            } else text+="."
+            text += array[i].charCode
+            if (i !== array.length - 1) {
+                text += ", "
+            } else text += "."
         }
         return text
     }

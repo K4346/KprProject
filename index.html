@@ -8,6 +8,7 @@
 </head>
 
 <body>
+<div id="content" style="display: none">
 <h1 id="title">Курс Валют</h1>
 
 <div id="chooseContainer">
@@ -34,13 +35,12 @@
 <div id="output">
 </div>
 
-<br>
 
-<div id="changesContainer" style="visibility: hidden">
+<div id="changesContainer" style="display: none">
     <h3>Динамика по сравнению с прошлым днем:</h3>
 </div>
 <div class="canvasContainer">
-    <canvas id="arrowCanvas" width="300" height="100">
+    <canvas id="arrowCanvas" width="300" height="80">
         Браузер не поддерживает Canvas
     </canvas>
 </div>
@@ -59,6 +59,10 @@
     <div id="cons"></div>
     <div id="equel"></div>
     </div>
+</div>
+</div>
+<div id="contentError" style="display: none">
+    <h1>Ошибка, попробуйте обновить страницу.</h1>
 </div>
 </body>
 </html>

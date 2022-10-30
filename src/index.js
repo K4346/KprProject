@@ -56,10 +56,10 @@ function initCurrencySelector(currencies) {
         if (event.target.value !== '-') {
             currency = new CurrencyEntity(info.valute[currencySelector.value])
             selectedName.textContent = `Валюта: ${currency.name}`
-            document.getElementById('changesContainer').style.visibility = 'visible'
+            document.getElementById('changesContainer').style.display = 'block'
             makeChart()
         } else {
-            document.getElementById('changesContainer').style.visibility = 'hidden'
+            document.getElementById('changesContainer').style.display = 'none'
             selectedName.textContent = `\n`
             ArrowChart.clear()
         }
@@ -73,10 +73,6 @@ function initNominalInput() {
     });
 }
 
-function initDate() {
-    document.getElementById('title').textContent = `Курс Валют (${(new Date(info.date)).toLocaleDateString("ru")})`
-}
-
 function initStats() {
     const splittedCurrencies = util.getCurrenciesByDynamics(Object.values(info.valute))
     pieChart.draw({
@@ -88,15 +84,23 @@ function initStats() {
     const cons = document.getElementById('cons')
     const equel = document.getElementById('cons')
     if (splittedCurrencies.pros.length!==0)
-    pros.textContent = `Валюты с положительной динамикой: ${util.makeTextFromArray(splittedCurrencies.pros)}`
+    pros.textContent = `Валюты с положительной динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.pros)}`
     if (splittedCurrencies.cons.length!==0)
-        cons.textContent = `Валюты с отрицательной динамикой: ${util.makeTextFromArray(splittedCurrencies.cons)}`
+        cons.textContent = `Валюты с отрицательной динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.cons)}`
     if (splittedCurrencies.equal.length!==0)
-        equel.textContent = `Валюты с нулевой динамикой: ${util.makeTextFromArray(splittedCurrencies.equal)}`
+        equel.textContent = `Валюты с нулевой динамикой: ${util.getCurrencyNamesFromArray(splittedCurrencies.equal)}`
+}
+
+    function apiIsReady(flag){
+    if (flag){
+        document.getElementById('content').style.display = 'block'
+    } else{
+        document.getElementById('contentError').style.display = 'block'
+    }
 }
 
 function initViews() {
-    initDate()
+    apiIsReady(true)
     initCurrencySelector(Object.keys(info.valute))
     initNominalInput()
     initStats()
@@ -110,6 +114,7 @@ function startApp() {
             info = new GeneralEntity(out)
             initViews()
         }).catch(err => {
+        apiIsReady(false)
         // setTimeout(function() {
         //     startApp()
         // }, 2000);
